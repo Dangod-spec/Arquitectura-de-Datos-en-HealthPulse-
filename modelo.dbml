@@ -1,0 +1,43 @@
+Table pacientes {
+  id_paciente  serial [primary key]
+  cedula       varchar(20) [not null, unique]
+  nombre       varchar(100) [not null]
+  apellido     varchar(100) [not null]
+  fecha_nac    date [not null]
+  tipo_sangre  varchar(5) [not null]
+}
+
+Table medicos {
+  id_medico    serial [primary key]
+  nombre       varchar(100) [not null]
+  apellido     varchar(100) [not null]
+  tarjeta_prof varchar(50) [not null, unique]
+  especialidad varchar(100) [not null]
+}
+
+Table citas {
+  id_cita     serial [primary key]
+  id_paciente int [not null]
+  id_medico   int
+  fecha_hora  timestamp [not null]
+  motivo_consulta varchar(500) [not null]
+}
+
+Table historias_clinicas {
+  id_historia serial [primary key]
+  id_cita  int [not null, unique]
+  diagnostico varchar(1000) [not null]
+  tratamiento varchar(1000) [not null]
+}
+
+Table signos_vitales {
+  id_lectura  serial [primary key]
+  id_paciente int [not null]
+  frecuencia_card int [not null]
+  temperatura  decimal [not null]
+  fecha_hora   timestamp [not null]
+}
+Ref: citas.id_paciente > pacientes.id_paciente
+Ref: citas.id_medico > medicos.id_medico
+Ref: historias_clinicas.id_cita > citas.id_cita
+Ref: signos_vitales.id_paciente > pacientes.id_paciente
